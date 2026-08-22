@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090d12" />
+  <title>Lonila Interactive Map</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="title-group">
+      <p class="eyebrow">INTERACTIVE WORLD MAP</p>
+      <h1>LONILA</h1>
+      <p class="tagline">Between Light and Shadow, Faith and Heresy.</p>
+    </div>
+    <nav class="view-tabs" aria-label="Lonila views">
+      <button id="mapTabBtn" class="view-tab is-active" type="button"><span aria-hidden="true">✦</span> World Atlas</button>
+      <button id="timelineTabBtn" class="view-tab" type="button"><span aria-hidden="true">⌛</span> Era Chronicle</button>
+    </nav>
+  </header>
+
+  <main id="mapView" class="map-page">
+    <section class="map-shell" aria-label="Interactive map of Lonila">
+      <div class="map-toolbar" aria-label="Map controls">
+        <button id="coordinateModeBtn" class="map-button map-button--wide" type="button"
+          aria-pressed="false" title="Turn coordinate placement mode on or off">
+          Coordinates: Off
+        </button>
+
+        <button id="zoomInBtn" class="map-button" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+        <button id="zoomOutBtn" class="map-button" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+        <button id="resetBtn" class="map-button map-button--wide" type="button"
+          aria-label="Reset map view" title="Reset map view">
+          Reset
+        </button>
+      </div>
+
+      <div id="mapViewport" class="map-viewport" tabindex="0">
+        <div id="mapStage" class="map-stage">
+          <img
+            id="worldMap"
+            class="world-map"
+            src="assets/lonila-map.png"
+            alt="Fantasy world map of Lonila"
+            draggable="false"
+          />
+          
+          <svg id="regionLayer" class="region-layer" viewBox="0 0 100 100"
+            preserveAspectRatio="none" aria-hidden="true">
+
+            <!-- Approximate region divisions based on the user's Lonila prototype.
+                 They can be refined later without changing the interaction system. -->
+
+            <path id="region-asteldiom" class="region-outline"
+              d="M 14 67
+                 C 20 63, 27 61, 35 60
+                 C 43 59, 48 61, 51 67
+                 C 53 72, 51 80, 47 87
+                 C 42 93, 33 96, 24 94
+                 C 18 91, 14 84, 13 76
+                 C 12 72, 12 69, 14 67 Z" />
+
+            <path id="region-rondiand" class="region-outline"
+              d="M 3 43
+                 C 8 39, 14 38, 20 39
+                 C 26 40, 31 44, 35 49
+                 C 39 54, 39 59, 35 63
+                 C 30 67, 23 68, 16 67
+                 C 10 67, 5 64, 3 59
+                 C 1 54, 1 48, 3 43 Z" />
+
+            <path id="region-elaria" class="region-outline"
+              d="M 10 12
+                 C 19 7, 31 6, 42 8
+                 C 51 9, 58 14, 61 21
+                 C 63 27, 60 35, 56 42
+                 C 52 49, 46 55, 39 58
+                 C 35 56, 33 51, 31 46
+                 C 29 42, 24 39, 19 39
+                 C 14 40, 10 38, 8 33
+                 C 6 27, 6 19, 10 12 Z" />
+
+            <path id="region-cariam" class="region-outline"
+              d="M 54 12
+                 C 61 8, 71 7, 80 10
+                 C 86 12, 90 17, 89 24
+                 C 88 32, 82 38, 76 42
+                 C 71 45, 66 46, 62 42
+                 C 58 38, 56 33, 56 28
+                 C 55 22, 52 16, 54 12 Z" />
+
+            <path id="region-darim" class="region-outline"
+              d="M 54 40
+                 C 60 36, 67 35, 73 38
+                 C 79 42, 81 49, 79 56
+                 C 77 63, 71 67, 65 67
+                 C 59 67, 54 63, 52 58
+                 C 50 52, 50 45, 54 40 Z" />
+
+            <path id="region-helmire" class="region-outline"
+              d="M 58 59
+                 C 66 55, 76 55, 84 58
+                 C 90 61, 94 67, 93 74
+                 C 92 82, 86 88, 78 91
+                 C 70 94, 61 92, 56 87
+                 C 52 82, 52 74, 54 68
+                 C 55 64, 56 61, 58 59 Z" />
+
+            <path id="region-tashimura" class="region-outline"
+              d="M 80 17
+                 C 85 14, 91 14, 95 18
+                 C 98 23, 98 31, 97 38
+                 C 96 47, 94 56, 91 63
+                 C 88 66, 84 63, 82 58
+                 C 80 52, 80 45, 80 39
+                 C 80 31, 77 22, 80 17 Z" />
+          </svg>
+
+          <div id="markerLayer" class="marker-layer" aria-label="Map locations"></div>
+        </div>
+
+        <div id="coordinateReadout" class="coordinate-readout" aria-live="polite" hidden>
+          <strong>Map Coordinate</strong>
+          <span id="coordinateText">X: — &nbsp; Y: —</span>
+          <button id="copyCoordinateBtn" type="button">Copy</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="nation-legend" aria-labelledby="legendTitle">
+      <div>
+        <p class="panel-kicker">MAP LOCATIONS</p>
+        <h2 id="legendTitle">Nations of Lonila</h2>
+      </div>
+      <div id="legendList" class="legend-list"></div>
+    </section>
+    <section class="chronicle-preview" aria-labelledby="chroniclePreviewTitle">
+      <div class="chronicle-preview__ornament" aria-hidden="true">⌛</div>
+
+      <div class="chronicle-preview__content">
+        <p class="panel-kicker">ERA CHRONICLE</p>
+        <h2 id="chroniclePreviewTitle">The Era of Awakening</h2>
+        <p>
+          The current age of Lonila is defined by uneasy peace, competing nations,
+          shifting alliances, and a growing demonic threat. While kingdoms and empires
+          maneuver for influence, the Demon Lords scheme beneath the conflicts of mortals.
+        </p>
+
+        <div class="chronicle-preview__meta" aria-label="Era overview">
+          <span><strong>Political State</strong> Fractured</span>
+          <span><strong>Demonic Activity</strong> Escalating</span>
+          <span><strong>Chronicle Anchor</strong> Betrayal / Legacy · Year 0</span>
+        </div>
+      </div>
+
+      <button id="openChronicleBtn" class="chronicle-preview__button" type="button">
+        Open Era Chronicle <span aria-hidden="true">→</span>
+      </button>
+    </section>
+  </main>
+
+
+
+  <!-- Drag-up chooser shown when a nation has related roleplays -->
+  <div id="choiceBackdrop" class="choice-backdrop" hidden></div>
+
+  <section id="nationChoiceSheet" class="nation-choice-sheet" hidden
+    aria-modal="true" role="dialog" aria-labelledby="choiceSheetTitle">
+
+    <div class="choice-sheet__handle" aria-hidden="true"></div>
+
+    <div class="choice-sheet__header">
+      <div>
+        <span id="choiceSheetRegion" class="choice-sheet__kicker"></span>
+        <h2 id="choiceSheetTitle" class="choice-sheet__title">Choose what to explore</h2>
+      </div>
+
+      <button id="closeChoiceSheetBtn" class="choice-sheet__close" type="button"
+        aria-label="Close selection window">×</button>
+    </div>
+
+    <div id="choiceSheetCards" class="choice-sheet__cards"></div>
+  </section>
+
+  <!-- Full-screen nation poster viewer.
+       It sits outside the map viewport so map zoom/pan cannot capture its scrolling. -->
+  <div id="locationPopup" class="nation-modal" hidden aria-modal="true" role="dialog" aria-label="Nation poster viewer">
+    <div class="nation-modal__topbar">
+      <div class="nation-modal__heading">
+        <span id="modalRegionName" class="nation-modal__kicker"></span>
+        <strong id="modalNationName" class="nation-modal__title"></strong>
+      </div>
+
+      <div class="nation-modal__instructions">
+        Scroll to explore the full poster
+      </div>
+
+      <button id="closePopupBtn" class="nation-modal__close" type="button" aria-label="Close nation poster">
+        ×
+      </button>
+    </div>
+
+    <div id="locationPopupContent" class="nation-modal__scroll"></div>
+  </div>
+
+
+  <main id="timelineView" class="timeline-page" hidden>
+    <section class="timeline-shell" aria-label="Lonila storyline timeline">
+      <div class="timeline-heading era-heading">
+        <div class="era-heading__ornament" aria-hidden="true">✦</div>
+        <p class="eyebrow">CURRENT HISTORICAL ERA</p>
+        <div class="era-heading__title-row">
+          <span class="era-badge">CURRENT ERA</span>
+          <h2>THE ERA OF AWAKENING</h2>
+        </div>
+        <p class="era-heading__subtitle">The Current Era of Lonila</p>
+        <p class="era-heading__lore">
+          Nations maneuver for supremacy beneath an uneasy peace. Old rivalries sharpen,
+          alliances shift, and every throne vies for influence while demonkind presses
+          against the civilized world. Beyond the wars of mortals, the Demon Lords scheme—
+          each pursuing ambitions that may decide the fate of the Valley in Between.
+        </p>
+
+        <div class="era-status" aria-label="Era status">
+          <span><b>Political State</b> Fractured</span>
+          <span><b>Demonic Activity</b> Escalating</span>
+          <span><b>International Stability</b> Uncertain</span>
+        </div>
+
+        <div class="chronicle-subhead">
+          <span>THE LONILA TALES</span>
+          <strong>PROTAGONIST CHRONICLE</strong>
+          <small>Betrayal / Legacy marks Year 0.</small>
+        </div>
+
+        <span class="timeline-wip">⚠ WIP — THE CHRONICLE CONTINUES ⚠</span>
+      </div>
+
+      <div class="timeline-board">
+        <div class="timeline-era timeline-era--pre"><strong>BEFORE THE AWAKENING</strong><small>Pre-Year 0</small></div>
+        <div class="timeline-era timeline-era--zero"><strong>YEAR 0</strong><small>Betrayal / Legacy</small></div>
+        <div class="timeline-era timeline-era--post"><strong>THE AWAKENING UNFOLDS</strong><small>Months After Year 0</small></div>
+        <div class="timeline-era timeline-era--year"><strong>ONE YEAR INTO THE AWAKENING</strong><small>Year +1</small></div>
+
+        <div class="timeline-axis" aria-hidden="true"></div>
+
+        <section class="story-lane story-lane--saint">
+          <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">✥</i><strong>SAINT / SAINTESS</strong><span>ASTEL · THEOCRACY</span><small>Faith · Legacy</small></div>
+          <div class="story-lane__track">
+            <a class="story-node" style="--x:8%" href="https://janitorai.com/characters/450187a7-d01a-4aa6-86dd-6be3810a0a17_character-your-legacy-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/your-legacy-thumbnail.png" alt="">
+              <span><b>Your Legacy</b><small>3 years before Betrayal / Legacy</small></span>
+            </a>
+            <a class="story-node story-node--minor" style="--x:24%" href="https://janitorai.com/characters/b21c7c59-67e1-4302-873a-80e11dc31cfb_character-a-saintesss-delight-lonila-tales" target="_blank" rel="noopener noreferrer">
+              <img src="assets/saintess-delight-thumbnail.png" alt="">
+              <span><b>A Saintess's Delight</b><small>Mid-Your Legacy</small></span>
+            </a>
+            <a class="story-node story-node--anchor" style="--x:42%" href="https://janitorai.com/characters/9c695d3b-1cf1-4794-92d0-203a1ee1dd1e_character-betrayal-legacy-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/betrayal-legacy-thumbnail.png" alt="">
+              <span><b>Betrayal / Legacy</b><small>Start of the Lonila Series</small></span>
+            </a>
+            <a class="story-node" style="--x:69%" href="https://janitorai.com/characters/dc70b2b3-3b2d-450f-9827-a0d6423b43a8_character-a-heros-reprieve-lonila-tales" target="_blank" rel="noopener noreferrer">
+              <img src="assets/heros-reprieve-thumbnail.png" alt="">
+              <span><b>A Hero's Reprieve</b><small>During Scholastic Geniuses</small><em class="concurrent-tag">Concurrent Story</em></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="story-lane story-lane--heir">
+          <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">☯</i><strong>THE HEIR</strong><span>ZHǍNG · CELESTIAL EMPIRE</span><small>Inheritance · Choice</small></div>
+          <div class="story-lane__track">
+            <a class="story-node" style="--x:60%" href="https://janitorai.com/characters/2d56cf51-a35f-4a91-8850-8a5658690b93_character-a-royal-reverie-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/royal-reverie-thumbnail.png" alt="">
+              <span><b>A Royal Reverie</b><small>Months after Betrayal / Legacy</small></span>
+            </a>
+            <a class="story-node" style="--x:73%" href="https://janitorai.com/characters/9ca8127f-8a24-422a-90e9-d85930183355_character-a-consorts-concern-lonila-tales" target="_blank" rel="noopener noreferrer">
+              <img src="assets/consorts-concern-thumbnail.png" alt="">
+              <span><b>A Consort's Concern</b><small>1 month later · Mid-Scholastic Geniuses</small><em class="concurrent-tag">Concurrent Story</em></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="story-lane story-lane--debtor">
+          <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">☠</i><strong>THE DEBTOR</strong><span>XILVATH · DEMON EMPIRE</span><small>Debt · Temptation</small></div>
+          <div class="story-lane__track">
+            <a class="story-node" style="--x:45%" href="https://janitorai.com/characters/a15b4767-01e9-4b23-a84e-0148fee64c3d_character-demons-debts-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/demons-debts-thumbnail.png" alt="">
+              <span><b>Demons &amp; Debts</b><small>During Betrayal / Legacy</small></span>
+            </a>
+            <a class="story-node" style="--x:92%" href="https://janitorai.com/characters/c9968c57-ca25-41e6-881f-d41cb413eb7b_character-a-queens-temptation-lonila-tales" target="_blank" rel="noopener noreferrer">
+              <img src="assets/queens-temptation-thumbnail.png" alt="">
+              <span><b>A Queen's Temptations</b><small>After To Be a Villain</small></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="story-lane story-lane--villain">
+          <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">♛</i><strong>VILLAIN / VILLAINESS</strong><span>ASTEL · THEOCRACY</span><small>Ambition · Ruin</small></div>
+          <div class="story-lane__track">
+            <a class="story-node" style="--x:86%" href="https://janitorai.com/characters/223b1d2d-4813-4b14-823f-c57709f5131e_character-to-be-a-villain-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/to-be-a-villain-thumbnail.png" alt="">
+              <span><b>To Be a Villain</b><small>1 year after Betrayal / Legacy</small></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="story-lane story-lane--extra">
+          <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">✦</i><strong>THE EXTRA</strong><span>ASTEL · THEOCRACY</span><small>Academy · Entanglement</small></div>
+          <div class="story-lane__track">
+            <a class="story-node" style="--x:88%" href="https://janitorai.com/characters/e205261a-ddf2-4809-ba5c-c1d361362afe_character-heroine-dunit-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/heroine-dunit-thumbnail.png" alt="">
+              <span><b>Heroine Dunit!</b><small>During To Be a Villain</small><em class="concurrent-tag">Concurrent Story</em></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="story-lane story-lane--dweller">
+          <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">☀</i><strong>THE DWELLER</strong><span>SEISHA · BAKUFU</span><small>Village · Intrigue</small></div>
+          <div class="story-lane__track">
+            <a class="story-node" style="--x:60%" href="https://janitorai.com/characters/3af88e68-d0f8-4214-a469-4678f5230c0b_character-a-merchants-interest-lonila-tales" target="_blank" rel="noopener noreferrer">
+              <img src="assets/merchants-interest-thumbnail.png" alt="">
+              <span><b>A Merchant's Interest</b><small>During A Royal Reverie</small><em class="concurrent-tag">Concurrent Story</em></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="story-lane story-lane--prodigy">
+          <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">✧</i><strong>THE PRODIGY</strong><span>LIRAEL · ARCANE DOMINION</span><small>Brilliance · Growth</small></div>
+          <div class="story-lane__track">
+            <a class="story-node" style="--x:46%" href="https://janitorai.com/characters/64f7d86e-286f-48ef-a7c8-22a029fc24a0_character-scholastic-prodigies-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/scholastic-prodigies-thumbnail.png" alt="">
+              <span><b>Scholastic Prodigies</b><small>During Betrayal / Legacy</small></span>
+            </a>
+            <a class="story-node" style="--x:66%" href="https://janitorai.com/characters/1e7d609c-9946-42ec-8e5d-4f4df888de0c_character-scholastic-geniuses-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/scholastic-geniuses-thumbnail.png" alt="">
+              <span><b>Scholastic Geniuses</b><small>2 months after Scholastic Prodigies</small></span>
+            </a>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
