@@ -217,7 +217,7 @@
             {
               id: "merchants-interest",
               title: "A Merchant's Interest — Lonila Tales",
-              thumbnail: "assets/merchants-interest-thumbnail.png",
+              thumbnail: "assets/merchants-interest-dweller-v2.png",
               url: "https://janitorai.com/characters/3af88e68-d0f8-4214-a469-4678f5230c0b_character-a-merchants-interest-lonila-tales"
             }
           ]
