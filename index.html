@@ -207,6 +207,62 @@
 
 
   <main id="timelineView" class="timeline-page" hidden>
+    <nav class="era-selector" aria-label="Historical era selector">
+      <button class="era-selector__button" type="button" data-era="subjugation">
+        <span>~630 YEARS BEFORE AWAKENING</span><strong>ERA OF SUBJUGATION</strong>
+      </button>
+      <div class="era-selector__line" aria-hidden="true"><i></i></div>
+      <button class="era-selector__button is-active" type="button" data-era="awakening">
+        <span>CURRENT ERA</span><strong>ERA OF AWAKENING</strong>
+      </button>
+    </nav>
+
+    <div class="era-panel" data-era-panel="subjugation" hidden>
+      <section class="timeline-shell" aria-label="Era of Subjugation chronicle">
+        <div class="timeline-heading era-heading era-heading--subjugation">
+          <div class="era-heading__ornament" aria-hidden="true">⚔</div>
+          <p class="eyebrow">HISTORICAL ERA · ~630 YEARS BEFORE AWAKENING</p>
+          <div class="era-heading__title-row">
+            <span class="era-badge era-badge--historical">LEGENDARY ERA</span>
+            <h2>THE ERA OF SUBJUGATION</h2>
+          </div>
+          <p class="era-heading__subtitle">The Age of Conquest and Territorial Disputes</p>
+          <p class="era-heading__lore">
+            The time period of conquest and territorial disputes. The <strong>Demon Empire</strong> was at its second greatest height under the demons as they ruled over what remained of their masters' greatness by taking over Helmire itself. The Nations were at their most active in this time frame, preferring war and battle over diplomacy and conversation. However, in the Era of Subjugation, there lies hope in the wondrous <strong>Saintess Dorothy Velrosa, Crown Princess of the Tsardom</strong>.
+          </p>
+          <div class="era-status" aria-label="Era status">
+            <span><b>Political State</b> Shattered</span>
+            <span><b>Demonic Activity</b> Maximum</span>
+            <span><b>Internal Stability</b> Miniscule</span>
+          </div>
+          <div class="chronicle-subhead">
+            <span>THE LEGENDARY CHRONICLE</span>
+            <strong>PROTAGONIST CHRONICLE</strong>
+            <small>Hymn of Smiles marks Subjugation Year 0.</small>
+          </div>
+          <span class="timeline-wip">THE HYMN OF SMILES AND FROWNS</span>
+        </div>
+
+        <div class="timeline-board timeline-board--subjugation">
+          <div class="timeline-era timeline-era--subjugation-age"><strong>ERA OF SUBJUGATION</strong><small>~630 Years Before Awakening</small></div>
+          <section class="story-lane story-lane--hound">
+            <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">⚔</i><strong>THE HOUND</strong><span>REDRANOVA · TSARDOM</span><small>Legend · Crusade</small></div>
+            <div class="story-lane__track">
+              <a class="story-node story-node--anchor" style="--x:18%" href="https://janitorai.com/characters/9baf13cd-3ad3-45f3-8d6f-87cd7bfdf2c8_character-the-hymn-of-smiles-lonila" target="_blank" rel="noopener noreferrer">
+                <img src="assets/hymn-of-smiles-part-1-thumbnail.png" alt="">
+                <span><b>Hymn of Smiles (Part 1)</b><small>Subjugation Year 0 · Beginning of the Era</small></span>
+              </a>
+              <a class="story-node" style="--x:76%" href="https://janitorai.com/characters/696dfbca-ce03-4d17-9169-aa97edd3ed33_character-the-hymn-of-frowns-lonila" target="_blank" rel="noopener noreferrer">
+                <img src="assets/hymn-of-frowns-part-2-thumbnail.png" alt="">
+                <span><b>Hymn of Frowns (Part 2)</b><small>Subjugation Year +5 · Five years after Part 1</small></span>
+              </a>
+            </div>
+          </section>
+        </div>
+      </section>
+    </div>
+
+    <div class="era-panel" data-era-panel="awakening">
     <section class="timeline-shell" aria-label="Lonila storyline timeline">
       <div class="timeline-heading era-heading">
         <div class="era-heading__ornament" aria-hidden="true">✦</div>
@@ -279,6 +335,20 @@
               <img src="assets/consorts-concern-thumbnail.png" alt="">
               <span><b>A Consort's Concern</b><small>1 month later · Mid-Scholastic Geniuses</small><em class="concurrent-tag">Concurrent Story</em></span>
             </a>
+            <a class="story-node" style="--x:82%" href="https://janitorai.com/characters/72669580-d726-4bb5-80c9-d5d6f6465f64_character-a-royal-skirmish-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/royal-skirmish-thumbnail.png" alt="">
+              <span><b>A Royal Skirmish</b><small>2 months after A Consort's Concern</small></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="story-lane story-lane--hunter">
+          <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">❄</i><strong>THE HUNTER</strong><span>REDRANOVA · TSARDOM</span><small>Hunt · Fellowship</small></div>
+          <div class="story-lane__track">
+            <a class="story-node" style="--x:73%" href="https://janitorai.com/characters/094cc0fb-4a18-4547-b8af-689362e5ec63_character-silver-hearts-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/silver-hearts-thumbnail.png" alt="">
+              <span><b>Silver Hearts</b><small>Half a year after Betrayal / Legacy · During A Consort's Concern</small><em class="concurrent-tag">Concurrent Story</em></span>
+            </a>
           </div>
         </section>
 
@@ -316,6 +386,26 @@
           </div>
         </section>
 
+        <section class="story-lane story-lane--keijin">
+          <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">刑</i><strong>THE KEIJIN</strong><span>SEISHA · BAKUFU</span><small>Penal Blade · Service</small></div>
+          <div class="story-lane__track">
+            <a class="story-node" style="--x:90%" href="https://janitorai.com/characters/1f2abcd6-ac2d-46f6-a73b-e6d9039947a6_character-sentenced-to-be-disposable-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/sentenced-to-be-disposable-thumbnail.png" alt="">
+              <span><b>Sentenced to be Disposable</b><small>1 week after Heroine Dunit!</small></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="story-lane story-lane--master">
+          <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">❀</i><strong>THE MASTER</strong><span>MORZHANANDA · SACRED REALM</span><small>Privilege · Dominion</small></div>
+          <div class="story-lane__track">
+            <a class="story-node" style="--x:88%" href="https://janitorai.com/characters/031daa40-55b2-49ca-ba62-df07efcd134c_character-arena-tumble-lonila" target="_blank" rel="noopener noreferrer">
+              <img src="assets/arena-tumble-thumbnail.png" alt="">
+              <span><b>Arena Tumble</b><small>During To Be a Villain · Year +1</small><em class="concurrent-tag">Concurrent Story</em></span>
+            </a>
+          </div>
+        </section>
+
         <section class="story-lane story-lane--dweller">
           <div class="story-lane__label"><i class="lane-emblem" aria-hidden="true">☀</i><strong>THE DWELLER</strong><span>SEISHA · BAKUFU</span><small>Village · Intrigue</small></div>
           <div class="story-lane__track">
@@ -341,6 +431,8 @@
         </section>
       </div>
     </section>
+  
+    </div>
   </main>
 
   <script src="script.js"></script>

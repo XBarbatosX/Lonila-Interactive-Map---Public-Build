@@ -179,7 +179,22 @@
       x: 59.90,
       y: 54.01,
       image: "assets/morzhananda-poster.png",
-      description: "Morzhananda occupies the Darim region."
+      description: "Morzhananda occupies the Darim region.",
+      roleplays: [
+        {
+          id: "the-master",
+          title: "The Master",
+          thumbnail: "assets/morzhananda-master-thumbnail.png",
+          choices: [
+            {
+              id: "arena-tumble",
+              title: "Arena Tumble | Lonila",
+              thumbnail: "assets/arena-tumble-thumbnail.png",
+              url: "https://janitorai.com/characters/031daa40-55b2-49ca-ba62-df07efcd134c_character-arena-tumble-lonila"
+            }
+          ]
+        }
+      ]
     },
     {
       id: "tashimura",
@@ -204,6 +219,19 @@
               title: "A Merchant's Interest — Lonila Tales",
               thumbnail: "assets/merchants-interest-thumbnail.png",
               url: "https://janitorai.com/characters/3af88e68-d0f8-4214-a469-4678f5230c0b_character-a-merchants-interest-lonila-tales"
+            }
+          ]
+        },
+        {
+          id: "the-keijin",
+          title: "The Keijin",
+          thumbnail: "assets/seisha-keijin-thumbnail.png",
+          choices: [
+            {
+              id: "sentenced-to-be-disposable",
+              title: "Sentenced to be Disposable — Lonila",
+              thumbnail: "assets/sentenced-to-be-disposable-thumbnail.png",
+              url: "https://janitorai.com/characters/1f2abcd6-ac2d-46f6-a73b-e6d9039947a6_character-sentenced-to-be-disposable-lonila"
             }
           ]
         }
@@ -238,6 +266,12 @@
               title: "A Consort's Concern — Lonila Tales",
               thumbnail: "assets/consorts-concern-thumbnail.png",
               url: "https://janitorai.com/characters/9ca8127f-8a24-422a-90e9-d85930183355_character-a-consorts-concern-lonila-tales"
+            },
+            {
+              id: "royal-skirmish",
+              title: "A Royal Skirmish — Lonila",
+              thumbnail: "assets/royal-skirmish-thumbnail.png",
+              url: "https://janitorai.com/characters/72669580-d726-4bb5-80c9-d5d6f6465f64_character-a-royal-skirmish-lonila"
             }
           ]
         }
@@ -266,6 +300,25 @@
               title: "Silver Hearts — Lonila",
               thumbnail: "assets/silver-hearts-thumbnail.png",
               url: "https://janitorai.com/characters/094cc0fb-4a18-4547-b8af-689362e5ec63_character-silver-hearts-lonila"
+            }
+          ]
+        },
+        {
+          id: "hound",
+          title: "The Hound",
+          thumbnail: "assets/redranova-hound-thumbnail.webp",
+          choices: [
+            {
+              id: "hymn-of-smiles-part-1",
+              title: "Hymn of Smiles (Part 1)",
+              thumbnail: "assets/hymn-of-smiles-part-1-thumbnail.png",
+              url: "https://janitorai.com/characters/9baf13cd-3ad3-45f3-8d6f-87cd7bfdf2c8_character-the-hymn-of-smiles-lonila"
+            },
+            {
+              id: "hymn-of-frowns-part-2",
+              title: "Hymn of Frowns (Part 2)",
+              thumbnail: "assets/hymn-of-frowns-part-2-thumbnail.png",
+              url: "https://janitorai.com/characters/696dfbca-ce03-4d17-9169-aa97edd3ed33_character-the-hymn-of-frowns-lonila"
             }
           ]
         }
@@ -466,7 +519,7 @@
       const card = document.createElement("article");
       card.className = "choice-card";
 
-      if (roleplay.choices && roleplay.choices.length > 0) {
+      if (Array.isArray(roleplay.choices)) {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "choice-card__button";
@@ -479,7 +532,7 @@
           <span class="choice-card__body">
             <span class="choice-card__type">Characters</span>
             <span class="choice-card__name">${roleplay.title}</span>
-            <span class="choice-card__note">Choose a related roleplay.</span>
+            <span class="choice-card__note">${roleplay.choices.length ? "Choose a related roleplay." : "Chronicle entries coming soon."}</span>
           </span>
         `;
         button.addEventListener("click", () => openRoleplayChoices(location, roleplay));
@@ -867,3 +920,16 @@ if (openChronicleBtn) {
     }
   });
 }
+
+
+// Era Chronicle historical era navigation
+(() => {
+  const buttons = [...document.querySelectorAll("[data-era]")];
+  const panels = [...document.querySelectorAll("[data-era-panel]")];
+  if (!buttons.length || !panels.length) return;
+  function selectEra(era) {
+    buttons.forEach(btn => btn.classList.toggle("is-active", btn.dataset.era === era));
+    panels.forEach(panel => { panel.hidden = panel.dataset.eraPanel !== era; });
+  }
+  buttons.forEach(btn => btn.addEventListener("click", () => selectEra(btn.dataset.era)));
+})();
